@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件化开发</title>
+</head>
+<body>
+    <div id="box1"></div>
+    <div id="box2"></div>
+    <!-- 面向组件开发
+    1. 组件标签：首字母大写，和html标签加以区分，组件标签可以任意
+    -->
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //1.定义组件（其实就是虚拟DOM）
+        //(1)使用工厂函数方式创建组件-简单组件
+        function Compon() {
+            return <h1>hello简单组件</h1>
+        }
+        //(2)es6类组件-复杂组件（它的过程就是当执行ReactDOM.render时，遇到Component组件标签，会先创建Component类的实例,实例对象再调用render函数来得到组件）
+        //Component是组件类，而里面的this是组件的实例对象
+        class Component extends React.Component {
+            render(){
+                console.log(this)
+                return <h2>复杂组件</h2>
+            }
+        }
+        //2.渲染组件标签
+        ReactDOM.render(<Compon/>,document.getElementById('box1'))
+        ReactDOM.render(<Component/>,document.getElementById('box2'))
+    </script>
+
+</body>
+</html>

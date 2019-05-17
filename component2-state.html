@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件的三大属性之一——state</title>
+</head>
+<body>
+    <!-- 需求：组件显示 我现在回家 点击后显示 她现在上班 
+        逻辑：由于显示两种状态，所以状态值可以为布尔值，当状态值改变时，就改变文本内容
+    -->
+    <div id="box"></div>
+
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Com extends React.Component { 
+            constructor(props) {
+                super(props)//调用父类React.Component的构造函数，将父类的props传递过来
+
+                // 初始化状态
+                this.state= {
+                    //为状态设名称为isgohome
+                    isgohome:true
+                }
+
+                //将新增方法的this强制绑定为组件对象,由于bind是会返回一个新的函数，所以应该将绑定this后的方法赋值给这个方法
+                this.handleClick = this.handleClick.bind(this)
+
+            }
+
+
+            //render方法是组件类已经存在的方法，而handleClick是新增的方法，虽然可以使用this.handelClick,
+            //但是这个新增函数里的this不是组件对象，而是undefined
+            //（因为，子类继承自父类，子类中的this是通过父类的实例this塑造的，而handleClick不是父类的方法，子类的this上面没有这个方法，由于在类中是严格模式，所以handleClick中的this是undefined），
+            //所以我们要在constructor中绑定新增方法的this为组件对象
+            handleClick(){
+                const isgohome = !this.state.isgohome
+                //更新状态
+                this.setState({
+                    // isgohome:isgohome 当键值对一样时，可以直接写成下面的形式
+                    isgohome
+                })
+               
+            }
+
+
+
+            render(){
+                //读取状态值，根据状态值显示内容
+                const {isgohome} = this.state //这一步是使用解构赋值的方式取出状态值isgohome
+                // 给组件对象绑定单击监听事件，注意这里的单击事件和原生js的不一样，Click是大写的，也是为了区分，因为onClick是react自己封装的单击事件
+                //this.handleClick中的this指的是组件对象，不是h2,并这个组件对象处理handleClick,我们不能直接调用，是这个组件去调用，所以不能加（）
+                return <h2 onClick={this.handleClick}>{isgohome?'我现在回家':'她现在上班'}</h2>
+            }
+            
+        }
+        ReactDOM.render(<Com/>,document.getElementById('box'))
+    </script>
+</body>
+</html>

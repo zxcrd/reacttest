@@ -10,17 +10,22 @@
     <div id="box"></div>
 
     <!--react.development.js是react的核心库  -->
-    <script src="./js/react.development.js"></script>
+    <script type="text/javascript" src="./js/react.development.js"></script>
     <!-- react-dom.development.js 是react的扩展库，专门用来操作dom -->
-    <script src="./js/react-dom.development.js"></script>
-    <!-- 解析jsx语法转成纯js语法的库 -->
-    <script src="./js/babel.min.js"></script>
+    <script type="text/javascript" src="./js/react-dom.development.js"></script>
+    <!-- babel在这里是为了解析jsx语法转成纯js语法的库  babel还可以将es6转成es5-->
+    <script type="text/javascript" src="./js/babel.min.js"></script>
      
+
+
+    <!-- text/babel的作用就是告诉babel解析jsx代码 -->
     <script type="text/babel">
+
         // 1.创建虚拟dom对象
         var vDom = <h1>hello react</h1>
         //2.将虚拟dom渲染到页面真实容器中
-        ReactDom.render(vDom,document.getElementById('box'))
+        //这里的ReactDOM首字母和DOM一定要大写
+        ReactDOM.render(vDom,document.getElementById('box'))
     </script>
 </body>
 </html>

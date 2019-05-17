@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jsx</title>
+</head>
+<body>
+    <div id="box1"></div>
+    <div id="box2"></div>
+
+
+    <!-- 1.引入三个js文件 -->
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <!-- 2.写js代码 -->
+    <script type="text/javascript">
+        const msg1 = 'hello'
+        const myId = 'at'
+
+        //这是真实DOM 可以通过debugger看到，真实的DOM很重
+        const box1 = document.getElementById('box1')
+        console.log(box1)
+        // (1)创建虚拟DOM(有两种方式，一个是利用jsx语法，用了jsx语法，就必须要写text/babel,第二种方式就是使用react提供的API  React.creatElement)
+        //let vDom = `<h2 id=${myId}>HELLO</h2>`
+
+        //这是虚拟DOM  很轻
+        const vDom = React.createElement('h2',{id:myId.toLowerCase()},msg1.toUpperCase()) //这种方式一般不用
+        debugger
+        console.log(vDom)
+        // (2)将虚拟DOM渲染到真实页面容器中
+        ReactDOM.render(vDom,document.getElementById('box1'))
+    </script>
+
+    <script type="text/babel">
+        const msg2 = 'hello'
+        const myId2 = 'at'
+        // (1)创建虚拟DOM(有两种方式，一个是利用jsx语法，用了jsx语法，就必须要写text/babel,第二种方式就是使用react提供的API  React.creatElement)
+        const vDom2 = <h3 id={myId2.toUpperCase()}>{msg2.toLowerCase()}</h3> //这个不是字符串，是jsx语法，最后会被babel解析成js对象
+        // const vDom = React.creatElement('h2',{id:myId.toLowerCase()},msg1.toUpperCase())
+        // (2)将虚拟DOM渲染到真实页面容器中
+        ReactDOM.render(vDom2,document.getElementById('box2'))
+    </script>
+
+<!-- 真实DOM和虚拟DOM的区别：
+    1.真实DOM很重
+      虚拟DOM很轻
+    2.更新虚拟DOM,不会更新界面，只有render后才会更新界面
+      更新真实DOM,会重绘页面
+ -->
+
+
+
+</body>
+</html>
