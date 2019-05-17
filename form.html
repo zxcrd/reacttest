@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义表单组件</title>
+</head>
+<body>
+    <!-- 需求：输入用户名，密码，点击登录会弹出提示框显示用户名和密码，且要阻止表单自动提交 -->
+    <div id="box"></div>
+
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Form extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state={
+                    pwd:''
+                }
+                this.handleonSubmit = this.handleonSubmit.bind(this)
+                this.handlechange = this.handlechange.bind(this)
+
+            }
+            handlechange(event){
+                //这里我们将密码的值放在了状态中，react中的onChange事件是只要用户输入就会立马触发，因此可以将输入的内容即时保存到状态中，再通过this.state读取密码值显示到提示框中
+                //这里用户名使用的是手动收集表单数据，而密码我们使用的是受控表单收集数据，就是在用户正在输入时就在收集，而不是用户输入完成再收集
+                const pwd = event.target.value
+                this.setState({pwd})
+            }
+            handleonSubmit(event){
+                //阻止事件的默认行为（提交）
+                event.preventDefault()
+                alert(`准备提交的表单数据用户名为：${this.inputname.value},密码是:${this.state.pwd}`)
+            }
+            render() {
+                return (
+                    <form action="/test" onSubmit={this.handleonSubmit}>
+                     <input type="text" placeholder="用户名" ref={input => this.inputname=input} />
+                     <input type="password" placeholder="密码"  value={this.state.pwd} onChange={this.handlechange}/>
+                     <input type="submit" value="登录" />
+                    </form>
+                );
+            }
+        }
+        ReactDOM.render(<Form/>,document.getElementById('box'))
+    </script>
+</body>
+</html>

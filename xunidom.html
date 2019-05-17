@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 虚拟DOM,diff算法的原理：
+        这两个问题的原理还涉及到react为什么快，为什么高效？
+
+        1.虚拟DOM是DOM树结构对象，它在内存中，相比于真实DOM来说，它更轻量，因为包含的属性少，
+        当页面组件更新时，会更新虚拟DOM对象。而不是更新真实DOM,如果是更新真实DOM,浏览器会一个一个更新，
+        这样会导致上一次更新的节点坐标又会因为下一次更新改变，因此产生了无效计算，而虚拟DOM对象会更新对象，之后再将所有的变化一次性更新
+        这是react高效的第一点：利用虚拟DOM
+        2.diff算法：在调用setState方法的时候，会产生新的数据对象，根据这个数据对象产生新的虚拟DOM对象，
+        然后再比对旧的虚拟DOM对象和新的虚拟DOM,从而计算出哪些地方需要更新，这样就不需要更新所有的界面，
+        而只是最小限度地修改组件界面
+        这是react高效的第二点
+     -->
+</body>
+</html>

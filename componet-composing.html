@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件的组合使用</title>
+</head>
+<body>
+    <div id="box"></div>
+
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+
+    <script type="text/babel">
+    /*
+        问题一：数据保存在哪？看数据是被某个组件需要还是被多个组件需要，如果被某个组件需要，就放这个组件，被多个组件需要数据放在它们的父组件中
+        问题二：子组件要修改父组件中的状态，但是子组件是无法直接修改父组件的状态——状态在哪个组件，
+                修改状态的行为就应该在那个组件中
+                解决方案：在父组件中定义函数，传递给子组件，让子组件来调用
+    */
+        class Father extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    // 数据放在需要用到这个数据的子组件共同的父组件中，这样保证子组件都能访问到这个数据
+                    datas: ['吃饭','睡觉','打豆豆']
+                }
+                this.addTodo = this.addTodo.bind(this)
+            }
+            
+            addTodo(todo){
+                //获取原来的数据
+                const datas = this.state.datas
+                //将todo添加到数据中
+                datas.unshift(todo)
+                //修改状态
+                this.setState({datas})
+            
+            }
+
+            render(){
+                //把数据交给子组件,将添加方法传给子组件
+                return (<div><h2>Simple Todolist</h2>
+                            <Input length={this.state.datas.length} addTodo={this.addTodo}/>
+                            <List datas={this.state.datas}/>
+                        </div>)
+            }
+        }
+        
+        class Input extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handleClick = this.handleClick.bind(this)
+            }
+
+            handleClick(){
+                const todo = this.input.value
+                // 检查合法性，如果输入为空，就不做任何操作
+                if(!todo){
+                    return
+                }
+                //调用父组件传过来的方法
+                this.props.addTodo(todo)
+                //将输入框中的文本清空
+                this.input.value= ''
+            }
+           
+            
+            render(){
+                return (<div><input ref={(input) => this.input=input }/><button onClick={this.handleClick}>add{this.props.length+1}#</button></div>)
+            }
+        }
+        class List extends React.Component {
+            constructor(props) {
+                super(props);
+                
+            }
+            
+            render(){
+                //子组件接收数据
+                return (<ul>
+                    {this.props.datas.map((item,index)=> <li key={index}>{item}</li>)}
+                    </ul>)
+            }
+        }
+        ReactDOM.render(<Father/>,document.getElementById('box'))
+    </script>
+</body>
+</html>

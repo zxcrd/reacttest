@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>函数作用域</title>
+</head>
+<body>
+    <script>
+        var a = 2
+        var b = 3
+        function bar(b){
+            var d = 6
+            console.log(a)
+            foo()
+            function foo(){
+                console.log(d)
+                var c = 6
+                // bar()  嵌套的内部函数可以访问嵌套的外部函数
+            }
+        }
+        bar(b)
+        // console.log(c)
+        // console.log(d)
+    </script>
+</body>
+</html>
